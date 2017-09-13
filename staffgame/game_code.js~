@@ -3,12 +3,12 @@ var staff_game_setup=false; //
 var setup=display;          //   
 //////////////////////////////////
 var mouseWasClicked=false;
-var background_color=[255];
+var background_color=[55];
 var distance;var x;var y;var speed=4;
 var Xspeed=speed; var Yspeed=speed -1;
 var game_score=0; var time=1;
 var GameOver=true;var go=0;
-var said_gameOver=false;var o=false;
+var said_gameOver=0;var o=false;
 var pick_image;
 //var bg_speed = 1;
 //var bg = 255;
@@ -126,17 +126,8 @@ if(mouseX>0&&mouseY>0&&dist(width/2,height-135,mouseX,mouseY)>75)
    text("GAME OVER !",width/2-200,height/2);
    textSize(23);
    text("PUSH SPACEBAR TO START NEW GAME",width/2-230,height/2+50);
-     if(!said_gameOver){
-     //console.log(said_gameOver);
-     sfx[9].play();
-     said_gameOver=true;
-     //console.log(said_gameOver);
-     }
    }
 }
-
-//sfx[9].play();
-
 function newStaff(){
   pick_image=Math.floor(random(1,img.length));
  if(pick_image==1){
@@ -159,7 +150,7 @@ function keyPressed(){
     game_score = 0; GameOver=false; time=20;
     x = width/2;
     y = height/2
-    //said_gameOver=0;
+    said_gameOver=0;
     o=false;
   }
 }
@@ -167,19 +158,17 @@ function mousePressed(){
    //var mode = mode_slider.value()
    //if(mode == 3){speed=50;}
 
-   //console.log(width/2);
+   console.log(width/2);
 
-
-
-/**   if(x>width/2+1||x<width/2-1&&said_gameOver<2){sfx[9].setVolume(0.5);
+   if(x>width/2+1||x<width/2-1&&said_gameOver<2){sfx[9].setVolume(0.5);
    sfx[9].play();said_gameOver++; o=true;
    console.log(said_gameOver);
    }
-**/
+
     //if(said_gameOver>1){said_gameOver=1;console.log(said_gameOver);}
 
   if(dist(width/2,height-135,mouseX,mouseY)>75){
-  background_color=[random(200,250),random(200,250),random(200,250)];
+  background_color=[random(200,250),0,random(200,250)];
     if(GameOver){keyPressed(1);}
   if (distance<90){game_score++;
   //tint(img[pick_image],0);
