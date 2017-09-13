@@ -159,7 +159,7 @@ function keyPressed(){
     game_score = 0; GameOver=false; time=20;
     x = width/2;
     y = height/2
-    //said_gameOver=0;
+    said_gameOver=false;
     o=false;
   }
 }
