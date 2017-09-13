@@ -3,11 +3,12 @@ var staff_game_setup=false; //
 var setup=display;          //   
 //////////////////////////////////
 var mouseWasClicked=false;
-var background_color=[255];
+var background_color=[55];
 var distance;var x;var y;var speed=4;
 var Xspeed=speed; var Yspeed=speed -1;
 var game_score=0; var time=1;
 var GameOver=true;var go=0;
+var said_gameOver=0;var o=false;
 var pick_image;
 //var bg_speed = 1;
 //var bg = 255;
@@ -129,23 +130,18 @@ if(mouseX>0&&mouseY>0&&dist(width/2,height-135,mouseX,mouseY)>75)
 }
 function newStaff(){
   pick_image=Math.floor(random(1,img.length));
-
  if(pick_image==1){
     sfx[pick_image].setVolume(2.0);
   }else{
     sfx[pick_image].setVolume(3.0);
   }
-
   if(pick_image==5){
     sfx[pick_image].setVolume(9.0);
   }
-
   if(pick_image==2){
     sfx[pick_image].setVolume(0.0);
   }
-
   //else{sfx[pick_image].setVolume(5.0);}
-
   sfx[pick_image].play();
 }
 function keyPressed(){
@@ -154,21 +150,31 @@ function keyPressed(){
     game_score = 0; GameOver=false; time=20;
     x = width/2;
     y = height/2
+    said_gameOver=0;
+    o=false;
   }
 }
 function mousePressed(){
    //var mode = mode_slider.value()
    //if(mode == 3){speed=50;}
-   sfx[0].setVolume(0.5);
-   sfx[0].play();
+
+   console.log(width/2);
+
+   if(x>width/2+1||x<width/2-1&&said_gameOver<2){sfx[9].setVolume(0.5);
+   sfx[9].play();said_gameOver++; o=true;
+   console.log(said_gameOver);
+   }
+
+    //if(said_gameOver>1){said_gameOver=1;console.log(said_gameOver);}
+
   if(dist(width/2,height-135,mouseX,mouseY)>75){
   background_color=[random(200,250),0,random(200,250)];
-    if(GameOver){keyPressed(1);GameOver=false;time=20;}
+    if(GameOver){keyPressed(1);}
   if (distance<90){game_score++;
   //tint(img[pick_image],0);
   }else{
     if(distance>90){
-      sfx[9].play();
+      //sfx[9].play();
       GameOver=true;time=0 
     }     
     //background_color = [255]
