@@ -86,7 +86,7 @@ if(GameOver&&time>0){
       speed = 1;
    }else if( mode === 2 ){ 
       speed = 4 ; 
-   } else if ( mode === 3 ;  ){
+   } else if ( mode === 3 ){
       speed = 6 ; 
    }
    
