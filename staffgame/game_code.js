@@ -185,6 +185,9 @@ function keyPressed(){
 }
 function mousePressed(){
    
+var ellipse1 = dist(width/2 -200,height,mouseX,mouseY);
+var ellipse2 = dist(width/2,height -100,mouseX,mouseY);
+var ellipse3 = dist(width/2 +200,height -100,mouseX,mouseY);
    
   if ( ellipse1 < 25 ) {
     console.log( "ellipse1" );
@@ -193,16 +196,6 @@ function mousePressed(){
  }else if ( ellipse3 < 25 ) {
    console.log( "ellipse3" );
 }
-   
-var ellipse1 = dist(width/2 -200,height,mouseX,mouseY);
-
-
-var ellipse2 = dist(width/2,height -100,mouseX,mouseY);
-
-
-var ellipse3 = dist(width/2 +200,height -100,mouseX,mouseY);
-  
-
 
    //var mode = mode_slider.value()
    //if(mode == 3){speed=50;}
