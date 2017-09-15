@@ -78,7 +78,7 @@ if(GameOver&&time>0){
 
    
 /////////////GAME MODE//////////
-  ellipse(width/2 -200,height,50,50);
+  ellipse(width/2 -200,height -100 ,50,50);
    ellipse(width/2,height -100,50,50);
    ellipse(width/2 +200,height -100,50,50);
    
@@ -185,16 +185,16 @@ function keyPressed(){
 }
 function mousePressed(){
    
-var ellipse1 = dist(width/2 -200,height,mouseX,mouseY);
+var ellipse1 = dist(width/2 -200,height -100 ,mouseX,mouseY);
 var ellipse2 = dist(width/2,height -100,mouseX,mouseY);
 var ellipse3 = dist(width/2 +200,height -100,mouseX,mouseY);
    
   if ( ellipse1 < 25 ) {
-    console.log( "ellipse1" );
+    console.log( "Button 1 was pressed" );
 }else if ( ellipse2 < 25 ) {
-   console.log( "ellipse2" );
+   console.log( "Button 2 was pressed" );
  }else if ( ellipse3 < 25 ) {
-   console.log( "ellipse3" );
+   console.log( "Button 3 was pressed" );
 }
 
    //var mode = mode_slider.value()
