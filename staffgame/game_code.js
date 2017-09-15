@@ -2,6 +2,9 @@
 var staff_game_setup=false; //
 var setup=display;          //   
 //////////////////////////////////
+
+var mode = 1;
+
 var mouseWasClicked=false;
 var background_color=[255];
 var distance;var x;var y;var speed=4;
@@ -72,6 +75,23 @@ background(background_color);
 //bg-=bg_speed
 //console.log(bg);
 if(GameOver&&time>0){
+
+   
+/////////////GAME MODE//////////
+  ellipse(width/2 -200,height,50,50);
+   ellipse(width/2,height -100,50,50);
+   ellipse(width/2 +200,height -100,50,50);
+   
+   if( mode === 1 ){ 
+      speed = 1;
+   }else if( mode === 2 ){ 
+      speed = 4 ; 
+   } else if ( mode === 3 ;  ){
+      speed = 6 ; 
+   }
+   
+   /////////////GAME MODE//////////
+   
  if(frameCount%40===0){ fill(random(200),random(200),random(200)); }
    textSize(80);textStyle(BOLD);
    text("Orlando's Staff Game!",width/2-430,height/2-50);
@@ -164,6 +184,26 @@ function keyPressed(){
   }
 }
 function mousePressed(){
+   
+   
+  if ( ellipse1 < 25 ) {
+    console.log( "ellipse1" );
+}else if ( ellipse2 < 25 ) {
+   console.log( "ellipse2" );
+ }else if ( ellipse3 < 25 ) {
+   console.log( "ellipse3" );
+}
+   
+var ellipse1 = dist(width/2 -200,height,mouseX,mouseY);
+
+
+var ellipse2 = dist(width/2,height -100,mouseX,mouseY);
+
+
+var ellipse3 = dist(width/2 +200,height -100,mouseX,mouseY);
+  
+
+
    //var mode = mode_slider.value()
    //if(mode == 3){speed=50;}
 
