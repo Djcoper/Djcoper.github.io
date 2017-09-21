@@ -1,0 +1,198 @@
+/**
+ * MIT License
+ * 
+ * Copyright (c) 2017 ORLANDO P RODRIGUES.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+**/
+/////////////////////////
+draw=Main;setup=false; //
+////GLOBAL VARIABLES/////
+mouseWasMoved = false;
+countdown=15;
+started=false;
+//
+/////////////////ARRAYS/////////////////////
+sparkles=[]; stars=[];showingStars=false; //
+/////////////////ARRAYS/////////////////////
+
+/////////Main//////////////
+function Main () { 
+if(!setup){setup=true;
+/////////SETUP////////////
+  makeCanvas();noStroke();
+  xdir = 1; ydir = 1;
+  x=random(100,width-100); y=random(100,height-100);  //= width/2; y = 50;
+  xturn = random(300); yturn = -random(200);
+
+}////////SETUP////////////
+//
+/////////Main loop//////////////
+
+  startScreen()
+
+  if(started){moveSparkles(2);}
+
+}////////Main loop///////////////
+
+/////////////StartScreen/////////////////////
+function startScreen(){
+var padding = 110;
+if(countdown<10){ padding = 40; }
+
+//////////MAKE START SCREEN TEXT////////////////
+  if(!started){background(0,0,40); showStars(); fill(255);
+  
+
+/////////DISPLAY COUNTDOWN////////////////////
+    textSize(200);
+    text(countdown,width/2-padding,height/2+65); 
+/////////DISPLAY COUNTDOWN////////////////////
+
+///////////USAGE GUIDE TEXT//////////////
+    textSize(30);msgX=width/2-270;msgY=80;
+    text("Move your mouse to guide the Sparkles,", msgX,msgY);
+    text("Or do nothing and watch what happends.", msgX,msgY+30);
+///////////USAGE GUIDE TEXT//////////////
+
+/////////Copyright Notice TEXT///////////
+    textSize(19);
+    text("Sparkles Copyright (c) 2017 ORLANDO P RODRIGUES.",
+      width/2 -240,height -50);
+/////////Copyright Notice TEXT///////////
+
+  }/////////MAKE START SCREEN TEXT////////////////
+
+  if(countdown>0&&frameCount%65===0){countdown--}
+  if(countdown<1){ started=true; }
+}/////////////StartScreen/////////////////////
+
+/////////CHECK IF MOUSE WAS MOVED/////////
+function mouseMoved(){mouseWasMoved=true;}
+/////////CHECK IF MOUSE WAS MOVED/////////
+
+///////////MOVE SPARKLES////////////
+function moveSparkles(n){
+
+  if( n === undefined ) {sparkle(x,y);}
+  if( n > 0 ){ sparkle(x,y);}
+  if( n > 1){ sparkle(x,y);}
+  if( n > 2){sparkle(x,y);}
+
+  x+=xdir; y+=ydir;
+  if(frameCount%50===0){
+  xturn = random(300); yturn = -random(300);
+  }padding = 5;
+  if(x > width-padding+ -xturn ||x <padding+xturn){xdir*= -1}
+  if(y > height/2+padding + -yturn ||y <150+padding+yturn){ydir*=-1}
+//
+  sec=60*5;
+  if(frameCount%sec===0){ mouseWasMoved = false; }
+  if(mouseWasMoved){
+    x=mouseX; y=mouseY;
+  }else{
+   x = x; y = y;
+   }
+}///////////MOVE SPARKLES///////////
+
+////////DEFINE THE STAR////////
+function Star(){
+this.x = random(width);
+this.y = random(height);
+this.twinkle = 0;
+this.size = random(1,2);
+
+  this.show = function(){
+    if(frameCount%10===0){
+      this.twinkle = random(160,255);
+    }
+    fill(this.twinkle);
+    ellipse(this.x,this.y,this.size);
+  }
+}////////DEFINE THE STAR////////
+
+////////MAKE 300 STARS AND SHOW THEM////////
+function showStars(){background(
+  0,0,40,130);
+
+  ////moon///
+  if(started){
+   fill(255);
+   ellipse(100,100,100,100);
+   fill(0,0,40);
+   ellipse(130,90,90,90);
+  }////moon///
+
+  if(!showingStars){showingStars=true;
+   for(i=0;i<300;i++){stars[i] =new Star;}
+  }
+  for(i=0;i<stars.length;i++){
+    stars[i].show();
+  }
+}////////MAKE 300 STARS AND SHOW THEM////////
+
+////////MAKE all the SPARKS////////
+function sparkle(x,y){showStars();
+  spark =new Spark(x,y);
+  sparkles.push(spark);
+  for(i=0;i<sparkles.length;i++){
+    sparkles[i].show();
+   }
+  if(sparkles.length > 200){
+    sparkles.splice(0,1); 
+  }
+}////////MAKE all the SPARKS////////
+
+////////DEFINE THE SPARK////////
+function Spark(x,y){
+this.x = x; this.y = y;
+this.speed = random(0.5);
+this.xdir = random(-this.speed, this.speed);
+this.ydir = random(-this.speed, this.speed +2);
+this.size = random(2,3.8);
+this.c = [249, 206, 29, 150]; // = [random(100,255),random(100,255),random(100,255)];
+this.shape = [ellipse,rect];
+this.pickshape = Math.floor(random(2));
+
+  this.show=function(){
+    //if(frameCount%1===0){ this.size = random(2.8);} 
+    if(frameCount%15===0){ 
+      this.c = [random(100,255),random(100,255),random(100,255)];
+      //this.pickshape = Math.floor(random(2));
+    }
+    fill(this.c);this.shape[this.pickshape](
+      this.x+=this.xdir,
+      this.y+=this.ydir,
+      this.size,this.size
+    );
+  }
+}///////////DEFINE THE SPARK///////////
+
+////////MAKE AND UPDATE CANVAS///////
+function windowResized(){
+  resizeCanvas(window.innerWidth,window.innerHeight);
+  showingStars=false;
+}
+function makeCanvas(){
+  createCanvas(
+    window.innerWidth,
+    window.innerHeight
+  );
+}////////MAKE AND UPDATE CANVAS///////
