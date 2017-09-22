@@ -27,7 +27,7 @@ draw=Main;setup=false; //
 ////GLOBAL VARIABLES/////
 sliders_made = false;
 mouseWasMoved = false;
-countdown=1;
+countdown=10;
 started=false;
 //
 /////////////////ARRAYS/////////////////////
