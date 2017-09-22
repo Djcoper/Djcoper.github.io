@@ -27,7 +27,7 @@ draw=Main;setup=false; //
 ////GLOBAL VARIABLES/////
 sliders_made = false;
 mouseWasMoved = false;
-countdown=10;
+countdown=1;
 started=false;
 //
 /////////////////ARRAYS/////////////////////
@@ -38,16 +38,22 @@ var speed = 1;
 bg_sfx_playing = false;
 twinkle_sfx_playing = false;
 
-var sfx = ['./audio/','Blonde Redhead - For The Damaged Coda.mp3','Twinkle - Dust.mp3'];
+var sfx = ['./audio/','Twinkle - Dust.mp3',
 
+'Blonde Redhead - For The Damaged Coda.mp3',
+
+'Balada para Adelina Harp.mp3',
+
+'Ballade pour Adeline - Richard Clayderman Piano.mp3'
+
+];
+
+var song;
 
 function preload(){
-
   for(i=1; i<sfx.length; i++){
-   sfx[i] = loadSound(sfx[0] + sfx[i]);
+    sfx[i] = loadSound(sfx[0] + sfx[i]);
   }
-
-
 }
 
 /////////Main//////////////
@@ -58,12 +64,15 @@ if(!setup){setup=true;
   xdir = speed; ydir = speed;
   x=random(100,width-100); y=random(100,height-100);  //= width/2; y = 50;
   xturn = random(300); yturn = -random(200);
+
+  song = Math.floor(random(2,sfx.length));
+
 }////////SETUP////////////
 //
 /////////Main loop//////////////
 
   if(!bg_sfx_playing){bg_sfx_playing = true;
-    sfx[1].loop(); 
+    sfx[song].loop(); 
   }
 
   startScreen();
@@ -164,10 +173,10 @@ function showSparkles(n){controlCenter();
   if(y > height/2+padding + -yturn ||y <150+padding+yturn){ydir*=-1}
 //
   sec=60*5;
-  if(frameCount%sec===0){sfx[1].setVolume(1); mouseWasMoved = false; }
+  if(frameCount%sec===0){sfx[song].setVolume(1); mouseWasMoved = false; }
 
   if(mouseWasMoved){
-    sfx[1].setVolume(0);
+    sfx[song].setVolume(0);
     x=mouseX; y=mouseY;
   }else{
    x = x; y = y;
@@ -187,13 +196,13 @@ function showSparkles(n){controlCenter();
 function sfxPlay(){
 
   if( !mouseWasMoved ){
-    twinkle_sfx_playing =false; sfx[2].stop();
+    twinkle_sfx_playing =false; sfx[1].stop();
   }
 
   if(!twinkle_sfx_playing &&mouseWasMoved){
     twinkle_sfx_playing=true;
     trinkle_sfx_speed = random(0.7,1.2);
-    sfx[2].loop(0,trinkle_sfx_speed);
+    sfx[1].loop(0,trinkle_sfx_speed);
   }
 }
 
@@ -284,3 +293,4 @@ function makeCanvas(){
     window.innerHeight
   );
 }////////MAKE AND UPDATE CANVAS///////
+
