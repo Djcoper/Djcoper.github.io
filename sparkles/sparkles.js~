@@ -63,7 +63,7 @@ if(!setup){setup=true;
 /////////Main loop//////////////
 
   if(!bg_sfx_playing){bg_sfx_playing = true;
-    sfx[1].loop(); 
+    sfx[1].play(); 
   }
 
   startScreen();
