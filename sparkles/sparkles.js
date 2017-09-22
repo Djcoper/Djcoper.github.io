@@ -25,44 +25,90 @@
 /////////////////////////
 draw=Main;setup=false; //
 ////GLOBAL VARIABLES/////
+sliders_made = false;
 mouseWasMoved = false;
-countdown=15;
+countdown=1;
 started=false;
 //
 /////////////////ARRAYS/////////////////////
 sparkles=[]; stars=[];showingStars=false; //
 /////////////////ARRAYS/////////////////////
+var speed = 1;
+
+bg_sfx_playing = false;
+twinkle_sfx_playing = false;
+
+var sfx = ['./audio/','Blonde Redhead - For The Damaged Coda.mp3','Twinkle - Dust.mp3'];
+
+
+function preload(){
+
+  for(i=1; i<sfx.length; i++){
+   sfx[i] = loadSound(sfx[0] + sfx[i]);
+  }
+
+
+}
 
 /////////Main//////////////
 function Main () { 
 if(!setup){setup=true;
 /////////SETUP////////////
-  makeCanvas();noStroke();
-  xdir = 1; ydir = 1;
+  makeCanvas();noStroke();rectMode(CENTER);
+  xdir = speed; ydir = speed;
   x=random(100,width-100); y=random(100,height-100);  //= width/2; y = 50;
   xturn = random(300); yturn = -random(200);
-
 }////////SETUP////////////
 //
 /////////Main loop//////////////
 
-  startScreen()
+  if(!bg_sfx_playing){bg_sfx_playing = true;
+    sfx[1].play(); 
+  }
 
-  if(started){moveSparkles(2);}
+  startScreen();
+
+  if(started){showSparkles();}
 
 }////////Main loop///////////////
 
+
+//function mousePressed(){}
+
+
 /////////////StartScreen/////////////////////
+
+function controlCenter(){fill(255);
+
+  rccx = 0; rccy = 0;
+
+  ccX = width/2 + rccx; ccY = height +rccy;
+
+  rect(ccX,ccY-75, 150,100);
+  //ellipse(width/2,height-80, 150,150);
+  if(!sliders_made){sliders_made=true;
+
+    spark_size = createSlider(3,6,3,0.1);
+    spark_size.position(ccX-66, ccY-80);
+
+  }
+  spark_size_value = spark_size.value();
+  fill(0);
+  text("Spark Size : "+spark_size_value, ccX-65, ccY- 90);
+
+}
+
+
+
 function startScreen(){
-var padding = 110;
-if(countdown<10){ padding = 40; }
+  if(!started){background(0,0,40); showStars(); fill(255);
 
 //////////MAKE START SCREEN TEXT////////////////
-  if(!started){background(0,0,40); showStars(); fill(255);
-  
 
 /////////DISPLAY COUNTDOWN////////////////////
     textSize(200);
+    var padding = 110;
+    if(countdown<10){ padding = 40; }
     text(countdown,width/2-padding,height/2+65); 
 /////////DISPLAY COUNTDOWN////////////////////
 
@@ -72,8 +118,17 @@ if(countdown<10){ padding = 40; }
     text("Or do nothing and watch what happends.", msgX,msgY+30);
 ///////////USAGE GUIDE TEXT//////////////
 
-/////////Copyright Notice TEXT///////////
+////////////////SUGGESTIONS TEXT/////////////////////
+
     textSize(19);
+
+    text("All improvement suggestions appreciated.",
+      width/2 -240,height -120);
+
+    text("The Developer Can Be Contacted @ djcoper.github.io@gmail.com",
+      width/2 -240,height -90);
+
+/////////Copyright Notice TEXT///////////
     text("Sparkles Copyright (c) 2017 ORLANDO P RODRIGUES.",
       width/2 -240,height -50);
 /////////Copyright Notice TEXT///////////
@@ -82,14 +137,19 @@ if(countdown<10){ padding = 40; }
 
   if(countdown>0&&frameCount%65===0){countdown--}
   if(countdown<1){ started=true; }
-}/////////////StartScreen/////////////////////
+}
+
+/////////////StartScreen/////////////////////
+
 
 /////////CHECK IF MOUSE WAS MOVED/////////
 function mouseMoved(){mouseWasMoved=true;}
 /////////CHECK IF MOUSE WAS MOVED/////////
 
-///////////MOVE SPARKLES////////////
-function moveSparkles(n){
+///////////SHOW SPARKLES////////////
+function showSparkles(n){controlCenter();
+
+  sfxPlay();
 
   if( n === undefined ) {sparkle(x,y);}
   if( n > 0 ){ sparkle(x,y);}
@@ -104,13 +164,39 @@ function moveSparkles(n){
   if(y > height/2+padding + -yturn ||y <150+padding+yturn){ydir*=-1}
 //
   sec=60*5;
-  if(frameCount%sec===0){ mouseWasMoved = false; }
+  if(frameCount%sec===0){sfx[1].setVolume(1); mouseWasMoved = false; }
+
   if(mouseWasMoved){
+    sfx[1].setVolume(0);
     x=mouseX; y=mouseY;
   }else{
    x = x; y = y;
    }
-}///////////MOVE SPARKLES///////////
+}///////////SHOW SPARKLES///////////
+
+/**
+
+  trinkle_sfx_speed = random(0.7,1.2);
+  if(!bg_sfx_playing){
+    bg_sfx_playing = true; sfx[2].loop(0,trinkle_sfx_speed);
+  }
+
+**/
+
+
+function sfxPlay(){
+
+  if( !mouseWasMoved ){
+    twinkle_sfx_playing =false; sfx[2].stop();
+  }
+
+  if(!twinkle_sfx_playing &&mouseWasMoved){
+    twinkle_sfx_playing=true;
+    trinkle_sfx_speed = random(0.7,1.2);
+    sfx[2].loop(0,trinkle_sfx_speed);
+  }
+}
+
 
 ////////DEFINE THE STAR////////
 function Star(){
@@ -121,7 +207,7 @@ this.size = random(1,2);
 
   this.show = function(){
     if(frameCount%10===0){
-      this.twinkle = random(160,255);
+      this.twinkle = random(155,255);
     }
     fill(this.twinkle);
     ellipse(this.x,this.y,this.size);
@@ -166,7 +252,8 @@ this.x = x; this.y = y;
 this.speed = random(0.5);
 this.xdir = random(-this.speed, this.speed);
 this.ydir = random(-this.speed, this.speed +2);
-this.size = random(2,3.8);
+
+this.size = random(spark_size.value()) //random(2,3.8);
 this.c = [249, 206, 29, 150]; // = [random(100,255),random(100,255),random(100,255)];
 this.shape = [ellipse,rect];
 this.pickshape = Math.floor(random(2));
@@ -189,6 +276,7 @@ this.pickshape = Math.floor(random(2));
 function windowResized(){
   resizeCanvas(window.innerWidth,window.innerHeight);
   showingStars=false;
+  spark_size.position(width/2 -70,height -80);
 }
 function makeCanvas(){
   createCanvas(
