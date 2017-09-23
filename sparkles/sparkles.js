@@ -28,9 +28,7 @@ var setup = false,draw = Main,//
 countdown = 10,
 started = false,
 showingStars = false,
-
 rote = 1.3,
-
 /////////sparkle variables/////////////////
 mouseWasMoved = false,
 sparkles_movement_speed  =  3,
@@ -158,7 +156,7 @@ function controlCenter(){fill(255);
 
   if(!sliders_made){sliders_made = true;
 
-    spark_size  =  createSlider(3,6,3,0.1);
+    spark_size  =  createSlider(3,10,6.5,0.1);
 
     trail_length =  createSlider(0,10,0,1);
 
