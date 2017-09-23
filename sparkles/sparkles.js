@@ -276,7 +276,7 @@ function showSparkles(n){sfxPlay();
     rotate(1.3);
   }
   pop();
-  rote-=0.01;
+  rote+=map(xturn, 0,300, -0.02,0.02) //0.01;
 ////////////////MAKE SPARKLES STAR/////////////////
 
 }///////////SHOW SPARKLES///////////
@@ -310,11 +310,11 @@ function Star(){
 this.x  =  random(width);
 this.y  =  random(height);
 this.twinkle  =  0;
-this.size  =  random(1,2);
+this.size  =  random(1.5,3);
 
   this.show  =  function(){
     if(frameCount%10 === 0){
-      this.twinkle  =  random(155,255);
+      this.twinkle  =  random(100,255);
     }
     fill(this.twinkle);
     ellipse(this.x,this.y,this.size);
