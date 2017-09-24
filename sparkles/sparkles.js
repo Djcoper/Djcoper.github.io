@@ -41,7 +41,7 @@ mouseWasPressed = false,
 show_controls = false,
 show_controls_done = false,
 sliders_made = false,
-rccx = 1, rccy = -200,
+rccx = 1, rccy = 1,
 ///////////controlCenter////////////////////
 
 
@@ -55,12 +55,14 @@ sparkles = [],stars = [],//
 
 //////////////SFX VARIABLES///////////////////
 song,bg_sfx_playing  =  false,
-twinkle_sfx_playing  =  false,
+twinkle_sfx_playing,
 ////////////////SOUNDS ARRAY//////////////////
-sfx = ['./audio/','Twinkle - Dust.mp3',
-'Blonde Redhead - For The Damaged Coda.mp3',
-'Balada para Adelina Harp.mp3',
-'Ballade pour Adeline - Richard Clayderman Piano.mp3'
+sfx = ['./audio/','Blonde Redhead - For The Damaged Coda AFTER INTRO.mp3',
+
+'Blonde Redhead - For The Damaged Coda INTRO.mp3',
+
+//'Balada para Adelina Harp.mp3',
+//'Ballade pour Adeline - Richard Clayderman Piano.mp3'
 ];
 ////////////////SOUNDS ARRAY//////////////////
 //////////////SFX VARIABLES///////////////////
@@ -80,7 +82,7 @@ if(!setup){setup = true;
 /////////SETUP////////////
   makeCanvas();noStroke();rectMode(CENTER);
   xdir  =  sparkles_movement_speed; ydir  =  sparkles_movement_speed;
-  x = random(100,width-100); y = random(100,height-100);  // =  width/2; y  =  50;
+  x = width/2; y = height/2;//random(100,width-100); y = random(100,height-100);  // =  width/2; y  =  50;
   xturn  =  random(300); yturn  =  -random(200);
   song  =  Math.floor(random(2,sfx.length));
 }////////SETUP////////////
@@ -93,12 +95,13 @@ if(!setup){setup = true;
 }////////Main loop///////////////
 
 
+
+function mousePressed(){mouseWasPressed = true;}
+
 /////////////////PICK NEW SONG ON MOUSE CLICK////////////////////
-function mousePressed(){mouseWasPressed = true;
-  sfx[song].stop();
-  song  =  Math.floor(random(2,sfx.length));
-  bg_sfx_playing  =  false;
-}
+//  sfx[song].stop();
+//  song  =  Math.floor(random(2,sfx.length));
+//  bg_sfx_playing  =  false;
 /////////////////PICK NEW SONG ON MOUSE CLICK////////////////////
 
 
@@ -297,7 +300,7 @@ function sfxPlay(){
 
   if(!twinkle_sfx_playing &&mouseWasMoved){
     twinkle_sfx_playing = true;
-    trinkle_sfx_speed  =  random(0.7,1.2);
+    trinkle_sfx_speed  =  1//random(0.7,1.2);
     sfx[1].loop(0,trinkle_sfx_speed);
   }
 }
@@ -326,9 +329,9 @@ function showStars(){background(
   ////moon///
   if(started){
    fill(255);
-   ellipse(100,100,100,100);
+   ellipse(100,100,150,150);
    fill(0,0,40);
-   ellipse(130,90,90,90);
+   ellipse(130,90,130,130);
   }////moon///
 
   if(!showingStars){showingStars = true;
