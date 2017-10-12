@@ -60,7 +60,7 @@ function Star_Constructor() {
 
 /////////////StartScreen/////////////////////
 started = false;
-countdown = 1;
+countdown = 15;
 function startScreen(){
 
 	//if(!bg_sfx_playing){bg_sfx_playing  =  true;
