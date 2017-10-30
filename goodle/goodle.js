@@ -1,6 +1,6 @@
 let colour, drips = [50]; frames = 0;
 function setup  () {
-	createCanvas (windowWidth,windowHeight);
+	createCanvas (window.innerWidth,window.innerHeight);
 	for (let i = 1;i < drips[0];i++) {
 		drips[i] = new Drip;
 	}
@@ -8,7 +8,7 @@ function setup  () {
 		Math.floor (random (
 			drips[drips.length-1].colour.length)
 		)
-	];textSize (90);
+	];textSize (80);
 }
 function draw  () {
 	background (255,0.5);
@@ -22,10 +22,10 @@ function draw  () {
 			)
 		];
 	}
-	if (mouseIsPressed) {background(255,50);}
+	if (mouseIsPressed) {background (255,50);}
 	//colour = Math.floor (random (drips[1].colour));
 	stroke (250,45);strokeWeight (30);fill (colour);
-	text ("G o o g l e  D o o d l e ?",width/2-450,height/2-50);
+	text ("G o o g l e  D o o d l e ?",width/2-410,height/2-50);
 	frames++;
 }
 function Drip  () {
@@ -61,5 +61,13 @@ function Drip  () {
 		if ((this.x < 0) || (this.x > width)) {
 			this.x = random (width);
 		}
+	}
+}
+
+function windowResized () {
+	resizeCanvas (window.innerWidth,window.innerHeight);
+	background (255);
+	for (let i = 1;i < drips.length;i++) {
+		drips[i].x = random (width);
 	}
 }
