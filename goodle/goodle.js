@@ -58,6 +58,8 @@ function Drip  () {
 			this.y = 0
 			//if ( random (1) < 0.05 ) {this.x = random (width);};
 		}
-		if (this.x < 0 || this.x > width) {this.x = random (width);}
+		if ((this.x < 0) || (this.x > width)) {
+			this.x = random (width);
+		}
 	}
 }
