@@ -14,7 +14,7 @@ function preload () {
 }
 function setup () {
 	createCanvas(window.innerWidth, window.innerHeight);
-	textSize(23); buzz.play();
+	textSize(23); buzz.loop();
 }
 function mousePressed () {
 	if(gameover){
