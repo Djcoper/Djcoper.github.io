@@ -3,6 +3,10 @@ let score = 0;
 let time = 20;
 let gameover = false;
 function preload () {
+
+	buzz = loadSound("assets/BEE-sfx.mp3");
+	slap = loadSound("assets/Slap-sfx.mp3");
+
 	beeImg = loadImage("assets/Queen_Bee.png");
 	bg = loadImage("assets/bg.jpg");
 	sq = loadImage("assets/sq.png");
@@ -10,7 +14,7 @@ function preload () {
 }
 function setup () {
 	createCanvas(window.innerWidth, window.innerHeight);
-	textSize(23);
+	textSize(23); buzz.play();
 }
 function mousePressed () {
 	if(gameover){
@@ -31,6 +35,7 @@ function draw () {
 				bees[i].speed = 0;
 				bees[i].fall = random(8,15);
 				if(!bees[i].hit){
+					slap.play();
 					score ++;
 				}
 				bees[i].hit = true;
