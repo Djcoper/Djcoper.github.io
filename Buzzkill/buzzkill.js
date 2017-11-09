@@ -1,6 +1,6 @@
 let bees = [];
 hscore = 0;
-playTime = 1;
+playTime = 20;
 let score = 0;
 let time = playTime;
 let gameover = false;
