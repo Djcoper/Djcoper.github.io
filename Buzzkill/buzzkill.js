@@ -73,7 +73,7 @@ function draw () {
 
 		fill(255,180);
 		textSize(35);
-		rect(width/2 - 120,height-245,200,70);
+		rect(width/2 - 120,height-235,200,70);
 		fill(100);
 
 		//ellipse(width/2 -20,height-170,100);
