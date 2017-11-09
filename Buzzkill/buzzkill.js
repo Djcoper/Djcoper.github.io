@@ -1,6 +1,6 @@
 let bees = [];
 let score = 0;
-let time = 1;
+let time = 20;
 let gameover = false;
 function preload () {
 
