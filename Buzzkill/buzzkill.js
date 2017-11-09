@@ -1,9 +1,10 @@
 let bees = [];
+hscore = 0;
+playTime = 1;
 let score = 0;
-let time = 20;
+let time = playTime;
 let gameover = false;
 function preload () {
-
 	buzz = loadSound("assets/BEE-sfx.mp3");
 	slap = loadSound("assets/Slap-sfx.mp3");
 
@@ -30,7 +31,7 @@ function mousePressed () {
 		mouseX,mouseY
 	);
 	if(gameover && dis < 100){
-		score = 0; time = 20;
+		score = 0; time = playTime;
 		textSize(23);
 		gameover = false;
 	}
@@ -73,9 +74,16 @@ function draw () {
 		gameover=true;
 	}
 	if(gameover){
+		if(hscore < score){
+			hscore = score;
+		}
+
 		textSize(50);
+		stroke(140,100);
+		fill(170, 100, 255);
+		text("HEIGH SCORE :" + hscore, width/2 - 180,height/2 -80);
 		fill(255);
-		text("GAME OVER", width/2 - 150,height/2);
+		text("GAME OVER", width/2 - 150,height/2 -10);
 		text("SCORE : " + score, width/2 -134,height/2+50);
 
 		fill(255,180);
