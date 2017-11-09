@@ -15,6 +15,13 @@ function preload () {
 function setup () {
 	createCanvas(window.innerWidth, window.innerHeight);
 	textSize(23); noStroke(); buzz.loop();
+
+	// bees.push (
+	// 	new Bee (
+	// 		width/2,50
+	// 	)
+	// );
+
 }
 function mousePressed () {
 	dis = dist(
@@ -75,9 +82,7 @@ function draw () {
 		textSize(35);
 		rect(width/2 - 120,height-235,200,70);
 		fill(100);
-
 		//ellipse(width/2 -20,height-170,100);
-
 		text("NEW GAME ", width/2 -111,height/2+149);
 
 	}
@@ -91,7 +96,6 @@ function Bee (x, y) {
 	this.fall = 0;
 	this.up = random(1,2);
 	this.Render = function() {
-		//ellipse(this.x, this.y, 10);
 		this.Update();
 		if(this.hit) {
 			image(
@@ -107,6 +111,17 @@ function Bee (x, y) {
 				this.y -= random(-2,2),
 				this.size,this.size
 			);
+
+			stroke(255,90);
+			strokeWeight(10);
+			line(this.x-10,this.y+22,this.x+random(-25,20),this.y+12);
+			line(this.x-15,this.y+22,this.x+random(-25,20),this.y+12);
+
+			// push();
+			// rotate(random(0.40,0.44));
+			// fill(0,20,25,80);
+			// ellipse(this.x -9, this.y-115, 10,40);
+			// pop();
 		}
 	}
 	this.Update = function () {
