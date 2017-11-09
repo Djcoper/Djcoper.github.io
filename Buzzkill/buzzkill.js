@@ -94,7 +94,9 @@ function Bee (x, y) {
 	this.size = 50;
 	this.speed = random(7,16);
 	this.fall = 0;
-	this.up = random(1,2);
+	this.up = random(5);
+	this.dir = Math.floor(random(30,180));
+
 	this.Render = function() {
 		this.Update();
 		if(this.hit) {
@@ -128,7 +130,7 @@ function Bee (x, y) {
 		this.x -= this.speed;
 		this.y += this.fall;
 		this.y += this.up;
-		if(frameCount%60===0){
+		if(frameCount%this.dir===0){
 			this.up*=-1;
 		}
 	}
