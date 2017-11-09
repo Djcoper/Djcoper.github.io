@@ -14,10 +14,15 @@ function preload () {
 }
 function setup () {
 	createCanvas(window.innerWidth, window.innerHeight);
-	textSize(23); buzz.loop();
+	textSize(23); noStroke(); buzz.loop();
 }
 function mousePressed () {
-	if(gameover){
+	dis = dist(
+		width/2 -20,
+		height-170,
+		mouseX,mouseY
+	);
+	if(gameover && dis < 100){
 		score = 0; time = 20;
 		textSize(23);
 		gameover = false;
@@ -62,8 +67,19 @@ function draw () {
 	}
 	if(gameover){
 		textSize(50);
+		fill(255);
 		text("GAME OVER", width/2 - 150,height/2);
 		text("SCORE : " + score, width/2 -134,height/2+50);
+
+		fill(255,180);
+		textSize(35);
+		rect(width/2 - 120,height-200,200,70);
+		fill(100);
+
+		//ellipse(width/2 -20,height-170,100);
+
+		text("NEW GAME ", width/2 -111,height/2+149);
+
 	}
 }
 function Bee (x, y) {
