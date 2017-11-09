@@ -81,7 +81,7 @@ function draw () {
 		textSize(50);
 		stroke(140,100);
 		fill(170, 100, 255);
-		text("HEIGH SCORE :" + hscore, width/2 - 180,height/2 -80);
+		text("HIGH SCORE :" + hscore, width/2 - 180,height/2 -80);
 		fill(255);
 		text("GAME OVER", width/2 - 150,height/2 -10);
 		text("SCORE : " + score, width/2 -134,height/2+50);
