@@ -1,9 +1,10 @@
-let bees = [];
-hscore = 0;
-playTime = 20;
-let score = 0;
-let time = playTime;
-let gameover = false;
+let bees = [],
+hscore = 0,
+playTime = 20,
+score = 0,
+time = playTime,
+gameover = false;
+
 function preload () {
 	buzz = loadSound("assets/BEE-sfx.mp3");
 	slap = loadSound("assets/Slap-sfx.mp3");
