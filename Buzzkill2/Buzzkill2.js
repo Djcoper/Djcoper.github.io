@@ -226,7 +226,7 @@ function Bee (x, y) {
 	this.x = x;
 	this.y = y;
 	this.size = 50;
-	this.speed = 2;//random(7,16);
+	this.speed = random(7,16);
 	this.fall = 0;
 	this.up = random(5);
 
