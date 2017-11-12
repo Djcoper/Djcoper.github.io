@@ -1,5 +1,5 @@
 const
-	devMode = true,
+	devMode = false,
 	bees = [],
 	wowimg = [],
 	wow = [],
@@ -168,7 +168,7 @@ function WOW(x,y,n) {
 	this.wow = Math.floor(random(1,wowimg.length));
 	this.oops = Math.floor(random(1,oopsImg.length));
 	this.size = 0;
-	this.maxSize = 250;
+	this.maxSize = 200;
 
 	this.x = x; //random(20,width-30);
 	this.y = y; //random(40,height-40);
@@ -226,7 +226,7 @@ function Bee (x, y) {
 	this.x = x;
 	this.y = y;
 	this.size = 50;
-	this.speed = 4;//random(7,16);
+	this.speed = random(7,16);
 	this.fall = 0;
 	this.up = random(5);
 
@@ -251,6 +251,7 @@ function Bee (x, y) {
 	//   noTint()
 	// }
 		if(this.queen){ this.size = 100 ; }
+		if(this.worker){ this.size = 60 ; }
 		this.Update();
 
 		if (devMode) {
@@ -259,9 +260,7 @@ function Bee (x, y) {
 		}
 
 		if(this.hit) {
-			if (this.queen) {
-
-			}
+			//if (this.queen) {}
 			image(
 				sqs,
 				this.x,
