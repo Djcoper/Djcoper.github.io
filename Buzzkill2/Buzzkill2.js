@@ -4,7 +4,7 @@ const
 	wowimg = [],
 	wow = [],
 	oopsImg = [];
-	playTime = 30;
+	playTime = 20;
 
 let
 	hscore = 0,
@@ -26,6 +26,8 @@ function preload () {
 
 	buzz = loadSound("assets/BEE-sfx.mp3");
 	slap = loadSound("assets/Slap-sfx.mp3");
+	wowsfx = loadSound("assets/wow-sfx.mp3");
+	boosfx = loadSound("assets/tun-sfx.mp3");
 
 	beeImg = loadImage("assets/Queen_Bee.png");
 	bg = loadImage("assets/bg.jpg");
@@ -46,6 +48,10 @@ function setup () {
 	// 		width/2,50
 	// 	)
 	// );
+
+	slap.setVolume(0.8);
+	wowsfx.setVolume(2);
+	boosfx.setVolume(3);
 }
 function mousePressed () {
 	//wow.push(new WOW (mouseX,mouseY) );
@@ -55,13 +61,19 @@ function mousePressed () {
 		height-170,
 		mouseX,mouseY
 	);
-	if(gameover && dis < 100){
+	if((gameover) && (dis < 100)){
 		score = 0; time = playTime;
 		textSize(23);
 		gameover = false;
 		buzzing = false;
 	}
 }
+
+// let x = window.innerWidth/2/2;
+// let y = 100;
+// let xdir = 3;
+// let ydir = 5;
+
 function draw () {
 	image(bg, width/2,height/2, -width, -height);
 
@@ -81,30 +93,37 @@ function draw () {
 			if (devMode) {
 			line (bees[i].x,bees[i].y,mouseX,mouseY);
 			}
-			if (devMode&&bees[i].queen) {
+			if ((devMode) && (bees[i].queen)) {
 				stroke(255,0,0)
 				line (bees[i].x,bees[i].y,mouseX,mouseY);
 			}
-			if (devMode&&bees[i].worker) {
+			if ((devMode) && (bees[i].worker)) {
 				stroke(0,0,255)
 				line (bees[i].x,bees[i].y,mouseX,mouseY);
 			}
 
-			if(dist(bees[i].x,bees[i].y,mouseX,mouseY) < 45 ) {
+			if(dist(bees[i].x,bees[i].y,mouseX,mouseY) < 45) {
 				bees[i].speed = 0;
 				bees[i].fall = random(8,15);
 				if(!bees[i].hit){
-					slap.play();
+					if ((!bees[i].worker) && (!bees[i].queen)){
+						slap.play();
+					}
 					score ++;
 				}
-				if(!bees[i].hit && bees[i].queen){
-					slap.play();
-					score += 100;
+				if((!bees[i].hit) && (bees[i].queen)){
+					//if (!wowsfx._playing) {
+						wowsfx.play();
+					//}
+					score += 10;
 					wow.push(new WOW (mouseX,mouseY));
 				}
-				if(!bees[i].hit && bees[i].worker){
-					slap.play();
-					score -= 50;
+				if((!bees[i].hit) && (bees[i].worker)){
+					//slap.play();
+				//if (!boosfx._playing) {
+					boosfx.play();
+				//}
+					score -= 5;
 					wow.push(new WOW (mouseX,mouseY,1));
 				}
 				bees[i].hit = true;
@@ -128,6 +147,11 @@ function draw () {
 			time--;
 		}
 		image(hand,mouseX,mouseY,60,60);
+		// if ((x>width)||(x<0)) {xdir*=-1;};
+		// if ((y>height)||(y<0)) {ydir*=-1;};
+		// if (frameCount%100===0) {
+		// 	xdir*=-1;
+		// };
 	}
 	if(time < 1){
 		gameover=true;
@@ -142,7 +166,7 @@ function draw () {
 		fill(248, 254, 114);
 		text("HIGH SCORE : " + hscore, width/2 - 195,height/2 -80);
 		fill(255);
-		text("GAME OVER!", width/2-165,height/2 -10);
+		text("GAME OVER !", width/2-165,height/2 -10);
 		text("SCORE : " + score, width/2 -134,height/2+60);
 		fill(255,180);
 		textSize(35);
@@ -158,7 +182,7 @@ function draw () {
 function renderWOW() {
 	for (var i = 1; i < wow.length; i++) {
 		wow[i].Render();
-		if (wow[i].done && wow[i].size < 1) {
+		if ((wow[i].done) && (wow[i].size < 1)) {
 			wow.splice(i,1);
 		}
 	}
@@ -178,7 +202,7 @@ function WOW(x,y,n) {
 	//this.rot = random(-0.5,0.5);
 
 	this.Render = function () {
-		if (!this.done && this.size < this.maxSize) {
+		if ((!this.done) && (this.size < this.maxSize)) {
 			this.size += 10;
 		}
 		if (this.size === this.maxSize) {
@@ -229,11 +253,13 @@ function Bee (x, y) {
 	this.speed = random(7,16);
 	this.fall = 0;
 	this.up = random(5);
+	this.dir = Math.floor(random(30,160));
 
-	this.dir = Math.floor(random(30,180));
 	if (this.queen) {
-		this.dir = Math.floor(random(50,180));
-	}
+		this.dir = Math.floor(random(20,80));
+		this.up = 10;//random(5);
+	 }
+
 	this.Pickqueen = random(100);
 	this.pickWorker = random(1);
 
@@ -241,7 +267,7 @@ function Bee (x, y) {
 		if( this.Pickqueen < 20 ) {
 			this.queen = true;
 		}
-		if(this.queen && this.pickWorker < 0.5) {
+		if((this.queen) && (this.pickWorker) < 0.5) {
 			this.queen = false;
 			this.worker = true;
 		}
@@ -292,13 +318,13 @@ function Bee (x, y) {
 			// ellipse(this.x -9, this.y-115, 10,40);
 			// pop();
 		}
-		// if (this.hit && this.queen) {
+		// if ((this.hit) && (this.queen)) {
 		// 	this.wows();
 		// }
 	}
 	this.Update = function () {
 		if(this.queen) {
-			this.x -= this.speed * 1.4;
+			this.x -= this.speed * 2.6;
 		} else if (this.worker) {
 			this.x -= this.speed * 0.5;
 		} else {
