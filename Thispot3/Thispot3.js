@@ -6,19 +6,20 @@ let
 	showSplash = false;
 function setup () {
 	createCanvas(
-		window.innerWidth,  window.innerHeight
+		window.innerWidth, window.innerHeight
 	);
 	tingSfx = loadSound("assets/ting-sfx.mp3");
 	dundunSfx = loadSound("assets/dundundun-sfx.mp3");
 	textSize(25);strokeWeight(10);noStroke();
 	//for (let i = 0; i < 100; i++) {
 	spots.push(new Spot(random(50, width - 50), random(150, height - 50)));
+	spots[0].color = [105.62598645027492, 164.727419350489, 238.82163258230457];
 	//};
 };
 let
 	offset = 145,
 	frames = 0;
-function Score () {
+function Splash () {
 	if (showSplash) {
 		background(0, 200);
 		push();
@@ -40,8 +41,8 @@ function Score () {
 };
 function mousePressed () {
 	if (
-		(!dundunSfx._playing)
-		&&
+		// (!dundunSfx._playing)
+		// &&
 		(gameOver)
 		&&
 		(dist(
@@ -62,14 +63,20 @@ function mousePressed () {
 				random(150, height - 50)
 			)
 		);
+		spots[0].color = [
+			105.62598645027492,
+			164.727419350489,
+			238.82163258230457
+		];
 	};
 	if (!showSplash) {
 		for (let i = spots.length - 1; i >= 0; i --) {
 			// for (let j = spots.length - 1; j >= 0; j --) {
-			// 	if (dist(spots[i].x,  spots[i].y,  spots[j].x,  spots[j].y) < spots[i].radius) {};
+			// 	if (dist(spots[i].x, spots[i].y, spots[j].x, spots[j].y) < spots[i].radius) {};
 			// };
 			//spots[i].Render();
-			if (dist(spots[i].x,  spots[i].y,  mouseX,  mouseY) < spots[i].radius) {
+			if (
+				dist(spots[i].x, spots[i].y, mouseX, mouseY) < spots[i].radius) {
 				if (!spots[i].newSpot) {
 					gameOver = true;
 				if (!dundunSfx._playing) {
@@ -84,7 +91,7 @@ function mousePressed () {
 					// text(
 					// 	"Not this.",
 					// 	spots[spots.length - 1].x,
-					// 	spots[spots.length - 1].y  -
+					// 	spots[spots.length - 1].y -
 					// 	spots[spots.length - 1].radius * 1.5
 					//);
 					spots[i].color = [150, 0, 0];
@@ -93,7 +100,11 @@ function mousePressed () {
 					//spots.push(new Spot());
 					//spots.splice(spots.length - 1);
 				};
-				if (spots[i].newSpot) {
+				if (
+					(!gameOver)
+					&&
+					(spots[i].newSpot)
+					) {
 					spots[i].newSpot = false;
 					score ++; point; tingSfx.play();
 					showSplash = true;
@@ -105,9 +116,9 @@ function mousePressed () {
 	};
 };
 function pickSpot () {
-	for (let i = spots.length -  2; i >= 0; i --) {
+	for (let i = spots.length - 2; i >= 0; i --) {
 		dis = dist(
-			spots[i].x,  spots[i].y,
+			spots[i].x, spots[i].y,
 			spots[spots.length - 1].x,
 			spots[spots.length - 1].y
 		);
@@ -140,24 +151,24 @@ function draw () {
 	pop();
 	for (let i = spots.length - 1; i >= 0; i --) {
 		spots[i].Render();
-			// if (dist(spots[i].x,  spots[i].y,  mouseX,  mouseY) < spots[i].radius) {
+			// if (dist(spots[i].x, spots[i].y, mouseX, mouseY) < spots[i].radius) {
 			// 	spots.push(new Spot());
-			//     //spots.splice(i, 1);
+			//   //spots.splice(i, 1);
 			// };
 	};
 	//console.log(dis)
-	text("SCORE : " + score,  10, 30);
-	Score();
+	text("SCORE : " + score, 10, 30);
+	Splash();
 	if (gameOver) {
 		//push()
 		textSize(30);
-		text("Game Over!",  width/2 - 80, 60);
+		text("Game Over!", width/2 - 80, 60);
 		text(
 			"Press here To maybe",
-			width/2 - 130, height - 50);
+			width/2 - 142, height - 43);
 			text(
 				"Start A New Game.",
-				width/2 - 125, height - 22
+				width/2 - 125, height - 12
 			);
 		// text(
 		// 	"Press Anywhere To Start New Game.",
@@ -188,9 +199,9 @@ function Spot (x, y) {
 	this.newSpot = true;
 	this.text = 0;
 	this.color = [
-		random(100, 255),
-		random(100, 255),
-		random(100, 255)
+		random(85, 255),
+		random(85, 255),
+		random(85, 255)
 	];
 	this.stroke = [0, 0];
 	if ((x != undefined) && (y != undefined)) {
@@ -212,7 +223,7 @@ function Spot (x, y) {
 		//ellipse(this.x, this.y, this.radius * 2);
 		ellipse(this.x += random(- 0.2, 0.2), this.y += random(- 0.2, 0.2), this.radius * 2);
 		//ellipse(this.x += random(- 0.2, 0.2), this.y += random(- 0.2, 0.2), this.size);
-		//text(n, this.x,  this.y,);
+		//text(n, this.x, this.y,);
 		this.me();
 	};
 	this.me = function () {
@@ -220,14 +231,14 @@ function Spot (x, y) {
 		if (this.text === 1) {
 				text(
 					"Not This...",
-					this.x -  50,
-					this.y -  this.radius * 1.5
+					this.x - 50,
+					this.y - this.radius * 1.5
 				);
 		} else if (this.text === 2) {
 			text(
 				"This One...",
-				this.x -  50,
-				this.y -  this.radius * 1.7
+				this.x - 50,
+				this.y - this.radius * 1.7
 			);
 		};
 		pop();
