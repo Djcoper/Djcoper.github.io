@@ -5,15 +5,29 @@ let
 	gameOver = false,
 	showSplash = false;
 function setup () {
-	createCanvas(
-		window.innerWidth, window.innerHeight
+	tingSfx = loadSound(
+		"assets/ting-sfx.mp3"
 	);
-	tingSfx = loadSound("assets/ting-sfx.mp3");
-	dundunSfx = loadSound("assets/dundundun-sfx.mp3");
+	dundunSfx = loadSound(
+		"assets/dundundun-sfx.mp3"
+	);
+	createCanvas(
+		window.innerWidth,
+		window.innerHeight
+	);
 	textSize(25);strokeWeight(10);noStroke();
 	//for (let i = 0; i < 100; i++) {
-	spots.push(new Spot(random(50, width - 50), random(150, height - 50)));
-	spots[0].color = [105.62598645027492, 164.727419350489, 238.82163258230457];
+	spots.push(
+		new Spot(
+			random(20, width - 30),
+			random(150, height - 70)
+		)
+	);
+	spots[0].color = [
+		105.62598645027492,
+		164.727419350489,
+		238.82163258230457
+	];
 	//};
 };
 let
@@ -59,8 +73,8 @@ function mousePressed () {
 		spots.splice(0);
 		spots.push(
 			new Spot(
-				random(50, width - 50),
-				random(150, height - 50)
+				random(20, width - 30),
+				random(150, height - 70)
 			)
 		);
 		spots[0].color = [
@@ -68,6 +82,7 @@ function mousePressed () {
 			164.727419350489,
 			238.82163258230457
 		];
+		dundunSfx.stop();
 	};
 	if (!showSplash) {
 		for (let i = spots.length - 1; i >= 0; i --) {
@@ -123,8 +138,8 @@ function pickSpot () {
 			spots[spots.length - 1].y
 		);
 		if (dis < spots[spots.length - 1].radius*2.5) {
-			spots[spots.length - 1].x = random(100, width - 100);
-			spots[spots.length - 1].y = random(100, height - 100);
+			spots[spots.length - 1].x = random(20, width - 30);
+			spots[spots.length - 1].y = random(100, height - 70);
 			pickSpot();
 		};
 	};
@@ -156,6 +171,20 @@ function draw () {
 			//   //spots.splice(i, 1);
 			// };
 	};
+
+	// for (var i = 1; i < spots.length; i++) {
+	// 	if (spots.length > 1) {
+	// 		//console.log(spots[i-1].x);
+	// 		push();
+	// 		stroke(spots[i].color);
+	// 		line(
+	// 			spots[i].x,spots[i].y,
+	// 			spots[i-1].x, spots[i-1].y
+	// 		);
+	// 		pop();
+	// 	}
+	// }
+
 	//console.log(dis)
 	text("SCORE : " + score, 10, 30);
 	Splash();
@@ -183,7 +212,7 @@ function draw () {
 			10, 60
 		);
 		text(
-			"Press the spots to gain a point.",
+			"Press the spot to gain a point.",
 			10, 90
 		);
 		text(
@@ -208,11 +237,12 @@ function Spot (x, y) {
 		this.x = x;
 		this.y = y;
 	} else {
-		this.x = random(50, width - 50);
-		this.y = random(50, height - 50);
+		this.x = random(20, width - 30);
+		this.y = random(100, height - 70);
 	};
 	this.radius = random(15, 35);
 	this.size = 0;
+	this.jitter = 0.3;
 
 	this.Render = function () {
 		if (this.size < this.radius * 2) {
@@ -221,7 +251,7 @@ function Spot (x, y) {
 		stroke(this.stroke);
 		fill(this.color);
 		//ellipse(this.x, this.y, this.radius * 2);
-		ellipse(this.x += random(- 0.2, 0.2), this.y += random(- 0.2, 0.2), this.radius * 2);
+		ellipse(this.x += random(- this.jitter, this.jitter), this.y += random(- this.jitter, this.jitter), this.radius * 2);
 		//ellipse(this.x += random(- 0.2, 0.2), this.y += random(- 0.2, 0.2), this.size);
 		//text(n, this.x, this.y,);
 		this.me();
@@ -237,7 +267,7 @@ function Spot (x, y) {
 		} else if (this.text === 2) {
 			text(
 				"This One...",
-				this.x - 50,
+				this.x - 60,
 				this.y - this.radius * 1.7
 			);
 		};
