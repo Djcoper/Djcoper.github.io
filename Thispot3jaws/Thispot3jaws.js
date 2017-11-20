@@ -4,7 +4,8 @@ const
 let
 	score = 0,
 	gameOver = false,
-	showSplash = false;
+	showSplash = false,
+	Popfx = false;
 
 function preload() {
 	tingSfx = loadSound(
@@ -19,7 +20,6 @@ function preload() {
 	);
 
 	waterSfx = loadSound("assets/water-sfx.mp3");
-
 	PopSfx = loadSound("assets/Pop-sfx.mp3");
 
 	backdrop = loadImage("assets/bgb.png");
@@ -57,6 +57,7 @@ function setup () {
 	waterSfx.setVolume(6);
 	dundunSfx.setVolume(1.4);
 	tingSfx.setVolume(1.2);
+	PopSfx.setVolume(60);
 	//JawsTheme.setVolume(1);
 };
 let
@@ -178,6 +179,7 @@ function mousePressed () {
 		)
 		{
 			bubbles.splice(i,1);
+			Popfx = false;
 		}
 	}
 
@@ -394,7 +396,7 @@ function Bubble() {
 	this.pop = random(-100,200);
 	this.jitter = random(-1,1);
 
-	this.showAvatar = random(5);
+	this.showAvatar = random(1);
 
 	if (this.showAvatar < 0.1) {
 		this.size = random(35,45);
@@ -428,11 +430,12 @@ function Bubble() {
 				text("Thispot3 Jaws Edition.", this.x-120, this.y - this.size/2.5);
 				text("By Orlando Rodrigues.", this.x-120, this.y + this.size/2.3);
 			}
-			// if (this.size === height/1.8) {
-			// 	if(!PopSfx._playing){
-			// 		PopSfx.play();
-			// 	}
-			// }
+			if (this.size > height/1.8 -2) {
+				if(!Popfx){
+					PopSfx.play();
+					Popfx = true;
+				}
+			}
 		}
 	}
 }
