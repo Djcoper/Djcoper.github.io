@@ -29,7 +29,7 @@ function draw () {
 		mouseY = y;
 	}
 
-	if (frameCount % 300 === 0) {
+	if (frameCount % 100 === 0) {
 		mousey = true;
 	}
 
