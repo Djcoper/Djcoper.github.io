@@ -18,6 +18,10 @@ function preload() {
 		"assets/Jaws - Theme song 192kbps.mp3"
 	);
 
+	waterSfx = loadSound("assets/water-sfx.mp3");
+
+	PopSfx = loadSound("assets/Pop-sfx.mp3");
+
 	backdrop = loadImage("assets/bgb.png");
 	shark = loadImage("assets/shark.gif");
 	seal = loadImage("assets/harbor_seal_PNG2.png");
@@ -49,9 +53,11 @@ function setup () {
 	// ];
 	//};
 	JawsTheme.loop();
-	dundunSfx.setVolume(2);
-	tingSfx.setVolume(2);
-	JawsTheme.setVolume(1.5);
+	waterSfx.loop();
+	waterSfx.setVolume(6);
+	dundunSfx.setVolume(1.4);
+	tingSfx.setVolume(1.2);
+	//JawsTheme.setVolume(1);
 };
 let
 	offset = 145,
@@ -155,6 +161,26 @@ function mousePressed () {
 			};
 		};
 	};
+
+	for (let i = bubbles.length-1; i >= 0; i--) {
+		dis = dist(bubbles[i].x,bubbles[i].y,mouseX,mouseY);
+		if (
+			(bubbles[i].showAvatar < 0.1)
+			&&
+			(dis < bubbles[i].size/2)
+			) {
+			bubbles[i].egg = true;
+		}
+		if (
+		(bubbles[i].egg)
+		&&
+		(bubbles[i].size > height/1.8 -1)
+		)
+		{
+			bubbles.splice(i,1);
+		}
+	}
+
 };
 function pickSpot () {
 	for (let i = spots.length - 2; i >= 0; i --) {
@@ -265,6 +291,7 @@ function draw () {
 	// height - 22, 100);
 	image(shark, mouseX += random(- spots[0].jitter, spots[0].jitter), mouseY += random(- spots[0].jitter, spots[0].jitter), 100,50);
 	Bubbles();
+	background(0,0,100,95);
 };
 function Spot (x, y) {
 	this.newSpot = true;
@@ -357,24 +384,56 @@ function Bubbles () {
 }
 
 function Bubble() {
-	this.size = random(8,20);
+	this.egg = false;
+
+	this.size = random(10,25);
 	this.x = random(width);
 	this.y = random(height, height*1.5);
 
 	this.up = random(0.3,0.9);
 	this.pop = random(-100,200);
+	this.jitter = random(-1,1);
 
-	this.showAvatar = random(10);
+	this.showAvatar = random(5);
+
+	if (this.showAvatar < 0.1) {
+		this.size = random(35,45);
+	}
 
 	this.Render = function () {
-		if (this.showAvatar < 0.1) {
+		if (
+		(this.showAvatar < 0.1)
+		// &&
+		// (this.size > 20)
+		){
 			image(avatar, this.x,this.y, this.size *0.7 ,this.size *0.7);
 		}
-		image(bubble, this.x,this.y, this.size,this.size);
+		if (this.size < height/1.8 -1){
+			image(bubble, this.x += this.jitter*0.2,this.y, this.size += random(-this.jitter,this.jitter)*0.1,this.size += random(-0.3,0.3));
+		}
 		this.y -= this.up;
 		// if (this.y < this.pop) {
 		// 	this.y = random(height, height*1.5);
 		// }
+		if (this.egg) {
+			this.x = width/2;
+			this.y = height/2;
+			if (this.size < height/1.8) {
+				this.size += 3;
+			}
+			if (this.size > height/1.8) {
+				this.size -= 3;
+			}
+			if (this.size > height/1.8 -1) {
+				text("Thispot3 Jaws Edition.", this.x-120, this.y - this.size/2.5);
+				text("By Orlando Rodrigues.", this.x-120, this.y + this.size/2.3);
+			}
+			// if (this.size === height/1.8) {
+			// 	if(!PopSfx._playing){
+			// 		PopSfx.play();
+			// 	}
+			// }
+		}
 	}
 }
 
