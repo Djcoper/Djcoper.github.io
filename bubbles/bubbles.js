@@ -16,8 +16,8 @@ function setup () {
 
 	//fill(255); //noStroke();
 
-	mic = new p5.AudioIn();
-	mic.start();
+	//mic = new p5.AudioIn();
+	//mic.start();
 }
 
 function draw () {
@@ -51,14 +51,19 @@ function draw () {
 	for (var i = 0; i < 6; i++) {
 		bubbles.push ( new Bubble (width/2, -50, 1));
 	}
-	vol = mic.getLevel();
-	if (vol > 0.001) {
-		//col[0] ++;
+	// vol = mic.getLevel();
+	// if (vol > 0.001) {
+	// 	//col[0] ++;
+	// 	for (var i = 0; i < 13; i++) {
+	// 		//bubbles.push ( new Bubble (width/2, height/2));
+	// 		bubbles.push ( new Bubble (random(100,width-100), height +300));
+	// 	}
+	// }
+
 		for (var i = 0; i < 13; i++) {
 			//bubbles.push ( new Bubble (width/2, height/2));
-			bubbles.push ( new Bubble (random(100,width-100), height +300));
+			bubbles.push ( new Bubble (random(100,width-100), height +50));
 		}
-	}
 
 	// if (col[0] > 300) {
 	// 	col[0] = 0;
@@ -107,6 +112,10 @@ function Bubble (x,y,d) {
 			this.yDir = 1;
 
 			ys -= 0.002;
+		}
+
+		if (ys < -1285) {
+			ys = 173;
 		}
 	}
 }
