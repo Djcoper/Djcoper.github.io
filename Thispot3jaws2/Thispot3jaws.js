@@ -298,6 +298,11 @@ function draw () {
 	if(mouseIsPressed){
 		bubbles.push(new Bubble(mouseX,mouseY));
 	}
+
+	if (frameCount % 10 === 0) {
+		obj = Math.floor(random(spots.length))
+		bubbles.push(new Bubble(spots[obj].x, spots[obj].y));
+	}
 };
 function Spot (x, y) {
 	this.newSpot = true;
