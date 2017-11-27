@@ -3,49 +3,72 @@ const
 //col = [0,100,100];
 // let
 //vol;
+
+function preload() {
+	bubble = loadImage("bubble.png");
+	bg = loadImage("ws_Classique_-_Wooden_Floor_1920x1200.jpg");
+	shower_sfx = loadSound("shower_sfx.mp3");
+	Pop_sfx = loadSound("Pop-sfx.mp3");
+
+}
+
 function setup () {
 	createCanvas(
 		window.innerWidth,
 		window.innerHeight
 	);
 	imageMode(CENTER);
-	bubble = loadImage("bubble.png");
 	//colorMode(HSB);
 	//fill(255); //noStroke();
 	//mic = new p5.AudioIn();
 	//mic.start();
+	shower_sfx.loop();
+	shower_sfx.rate(5);
+	Pop_sfx.rate(1.2);
 }
 function draw () {
-	background(38, 50, 56);
+
+	if ((!shower_sfx._playing) && (frameCount % 20 === 0)) {
+		shower_sfx.loop();
+	}
+
+	image(bg, width/2, height/2, width, height);
+	//background(38, 50, 56);
 	//hsl background(220,19,18);
-	for (let i = bubbles.length-1; i >= 0; i--) {
-		bubbles[i].Render();
+	for (let index = bubbles.length-1; index >= 0; index--) {
+		bubbles[index].Render();
 		if (
-			(bubbles[i].y < -100)
+			(bubbles[index].y < -100)
 			||
-			(bubbles[i].y > height + 300)
+			(bubbles[index].y > height + 300)
 			||
-			(bubbles[i].x < 0)
+			(bubbles[index].x < 0)
 			||
-			(bubbles[i].x > width)
+			(bubbles[index].x > width)
 			||
-			(bubbles[i].size < 10)
+			(bubbles[index].size < 10)
 		)
 		{
-			bubbles.splice(i,1);
+			bubbles.splice(index,1);
 		}
 	}
 	if (mouseIsPressed) {
+		shower_sfx.stop();
 		//col[0] ++;
-		for (let i = 0; i < 2; i++) {
+		for (let index = 0; index < 2; index++) {
+			if (!Pop_sfx._playing) {
+				for (let index = 0; index < 2; index++) {
+					Pop_sfx.play();
+				}
+			}
 			bubbles.push ( new Bubble (mouseX, mouseY) );
 		}
 	}
 	if (!mouseIsPressed) {
-		for (let i = 0; i < 5; i++) {
+		for (let index = 0; index < 5; index++) {
 			bubbles.push ( new Bubble (width/2, -50, 1));
 		}
-		for (let i = 0; i < 10; i++) {
+		for (let index = 0; index < 10; index++) {
 			//bubbles.push ( new Bubble (width/2, height/2));
 			bubbles.push ( new Bubble (random(100,width-100), height +50));
 		}
@@ -53,7 +76,7 @@ function draw () {
 	// vol = mic.getLevel();
 	// if (vol > 0.001) {
 	// 	//col[0] ++;
-	// 	for (let i = 0; i < 13; i++) {
+	// 	for (let index = 0; index < 13; index++) {
 	// 		//bubbles.push ( new Bubble (width/2, height/2));
 	// 		bubbles.push ( new Bubble (random(100,width-100), height +300));
 	// 	}
@@ -71,7 +94,7 @@ function draw () {
 
 let
 	xs = window.innerWidth/2
-	ys = window.innerHeight/2
+	ys = window.innerHeight/2 -300
 function Bubble (x,y,d) {
 	this.x = x,
 	this.y = y,
