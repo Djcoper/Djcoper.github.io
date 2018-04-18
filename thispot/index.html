@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>This Spot</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/p5.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/addons/p5.dom.min.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/addons/p5.sound.min.js"></script>
+	<!-- <script src="*.js"></script> -->
+<script>
+const
+	spots = [];
+let
+	score = 0,
+	showSplash = false;
+
+function setup () {
+    createCanvas(
+        window.innerWidth, window.innerHeight
+    );
+		tingSfx = loadSound("ting-sfx.mp3");
+		dundunSfx = loadSound("dundundun-sfx.mp3");
+		textSize(25);
+		strokeWeight(10);
+    noStroke();
+    //for (let i = 0; i < 100; i++) {
+        spots.push(new Spot());
+    //}
+}
+
+let offset = 145;
+function Score() {
+	if (showSplash) {
+		background(0,200);
+		push();
+		textSize(height/1.1);
+		//offset = 145;
+		if (score > 9) {
+			offset = 315;
+		}
+		text(score,width/2-offset,height/2 + 210);
+		pop();
+	}
+	if (frameCount % 30 === 0) {
+		showSplash = false;
+	}
+}
+
+function mousePressed () {
+	if (!showSplash) {
+		for (let i = spots.length-1; i >= 0; i--) {
+			// for (let j = spots.length-1; j >= 0; j--) {
+			// 	if ( dist(spots[i].x, spots[i].y, spots[j].x, spots[j].y) < spots[i].radius ) {}
+			// }
+			//spots[i].Render();
+			if ( dist(spots[i].x, spots[i].y, mouseX, mouseY) < spots[i].radius ) {
+
+				if (!spots[i].newSpot) {
+					dundunSfx.play();
+					spots[i].hit = false;
+					//spots[spots.length-1].color = [255,0,0];
+					spots[spots.length-1].stroke = [0,250,0];
+					spots[spots.length-1].text = 2;
+					spots[i].text = 1;
+					//text("Not this.",110,110);
+
+					// text(
+					// 	"Not this.",
+					// 	spots[spots.length-1].x,
+					// 	spots[spots.length-1].y -
+					// 	spots[spots.length-1].radius * 1.5
+					// );
+
+					spots[i].color = [150,0,0];
+
+					//score = 0;
+					//spots.splice(0);
+					//spots.push(new Spot());
+					//spots.splice(spots.length-1);
+				}
+
+				if(spots[i].newSpot){
+					spots[i].newSpot = false;
+					score ++; point; tingSfx.play();
+					showSplash = true;
+					spots.push(new Spot());
+					pickSpot();
+				}//spots.splice(i,1);
+			}
+		}
+	}
+}
+
+function pickSpot() {
+	for (let i = spots.length - 2; i >= 0; i--) {
+		dis = dist(
+			spots[i].x, spots[i].y,
+			spots[spots.length-1].x,
+			spots[spots.length-1].y
+		);
+		if (dis < spots[spots.length-1].radius*2.5) {
+			spots[spots.length-1].x = random(100,width-100);
+			spots[spots.length-1].y = random(100,height-100);
+			pickSpot();
+		}
+	}
+}
+
+// function grad (r,g,b) {
+// 	col = [r,g,b];
+// 	for (let i = 0; i < height; i++) {
+// 		col[2] += 0.5;
+// 		col[1] -= 0.5;
+// 		col[0] -= 0.3;
+// 		push();
+// 		stroke(col);
+// 		line(0,i,width,i);
+// 		pop();
+// 	}
+// }
+
+function draw () {
+	background(255);
+	push();
+	textSize(height/1.1);
+	fill(240);
+	text(score,width/2-offset,height/2 + 210);
+	pop();
+
+	for (let i = spots.length-1; i >= 0; i--) {
+		spots[i].Render();
+			// if ( dist(spots[i].x, spots[i].y, mouseX, mouseY) < spots[i].radius ) {
+			// 	spots.push(new Spot());
+			//     //spots.splice(i,1);
+			// }
+	}
+	//console.log(dis)
+	text("SCORE : "+score, 10,30);
+	Score();
+}
+function Spot () {
+	this.newSpot = true;
+	this.text = 0;
+	this.color = [
+		random(100,255),
+		random(100,255),
+		random(100,255)
+	];
+	this.stroke = [0,0];
+	this.x = random(100,width-100);
+	this.y = random(100,height-100);
+	this.radius = random(15, 35);
+
+	this.Render = function () {
+		stroke(this.stroke);
+		fill(this.color);
+		ellipse(this.x,this.y,this.radius * 2);
+		//text(n,this.x, this.y,);
+		this.me();
+	}
+	this.me = function () {
+		push(); noStroke();
+		if (this.text === 1) {
+				text(
+					"Not This...",
+					this.x - 50,
+					this.y - this.radius * 1.5
+				);
+		} else if (this.text === 2) {
+			text(
+				"This One...",
+				this.x - 50,
+				this.y - this.radius * 1.7
+			);
+		}
+		pop();
+	}
+}
+
+function windowResized() {
+	resizeCanvas(
+		window.innerWidth,
+		window.innerHeight
+	);
+}
+</script>
+	<style>
+		body {
+			margin:0;
+			padding:0;
+			overflow:hidden;
+		}
+		canvas {
+			margin:auto;
+		}
+	</style>
+</head>
+<body>
+</body>
+</html>
