@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/p5.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/addons/p5.dom.min.js"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.12/addons/p5.sound.min.js"></script> -->
+	<!-- <script src="*.js"></script> -->
+	<style>
+		body {
+			margin:0;
+			padding:0;
+			overflow:hidden;
+		}
+		canvas {
+			margin:auto;
+		}
+	</style>
+</head>
+<body>
+<script>
+const
+	number_of_lines = 55,
+	matrix = [],
+	position = [],
+
+	symbols = [
+	"ァ","ア","ィ","イ","ゥ","ゥ","ウ",
+	"ェ","エ","ォ","オ","カ","ガ","キ",
+	"ギ","ク","グ","ケ","ゲ","コ","ゴ",
+	"サ","ザ","シ","ジ","ス","ズ","セ",
+	"ゼ","ソ","ゾ","タ","ダ","チ","ヂ",
+	"ッ","ツ","ヅ","テ","デ","ト","ド",
+	"ナ","ニ","ヌ","ネ","ノ","ハ","バ",
+
+	"パ","ヒ","ビ","ピ","フ","ブ","プ",
+	"ヘ","ベ","ペ","ホ","ボ","ポ","マ",
+	"ミ","ョ","ヨ","ラ","リ","ル","レ",
+	"ロ","ヮ","ワ","ヰ","ヱ","ヲ","ン",
+	"ヴ","ヵ","ヶ","ヷ","ヸ","ヹ","ヺ",
+	"ヽ","ヾ","ヿ","ㇰ","ㇱ","ㇲ","ㇳ",
+	"ㇴ","ㇵ","ㇶ","ㇷ","ㇸ","ㇹ","ㇺ",
+	"ㇻ","ㇼ","ㇽ","ㇾ","ㇿ","㌀","㌁",
+
+	"㌂","¬","£","$","%","^","&","*",
+	"_","+","$",":)","$:",":$:","$:",
+];
+
+function setup () {
+	createCanvas(
+		window.innerWidth,
+		window.innerHeight
+	);
+	//matrix[0] = new Matrix(0,10);
+	noStroke();
+	textSize(17);
+
+}
+
+function draw () {
+	background(10,20);
+
+	if (frameCount % 4 ===0) {
+		for (var i = 0; i < number_of_lines; i++) {
+			position.push(random(-height/2, height));
+			//matrix.push(new Matrix(i * 15, position[i]));
+			matrix.push(new Matrix(map(i, 0,number_of_lines, 0,width), position[i]));
+		}
+
+		for (var i = 0; i < position.length; i++) {
+			position[i] += 23;
+			if (position[i] > height) {
+				position[i] = random(-300);
+			}
+		}
+	}
+
+	for (var i = matrix.length-1; i >= 0; i--) {
+		if (matrix[i].y > 1) {
+			matrix[i].Print();
+		}
+		if (matrix[i].alpha < 1 || matrix[i].y > height) {
+			matrix.splice(i,1);
+			//position.splice(position.length-1);
+		}
+		// if (dist(matrix[i].x,matrix[i].y, mouseX,mouseY) < 40) {
+		// 	matrix.splice(i,1);
+		// }
+	}
+	//fill(matrix[matrix.length-1].alpha);
+	// if (mouseX > 1) {
+	// 	fill(0);
+	// 	ellipse(mouseX,mouseY,40);
+	// }
+	if (frameCount % 2 === 0 && matrix.length > 0) {
+		for (var i = 0; i < 6; i++) {
+			matrix[Math.floor(random(matrix.length))].pick = Math.floor(random(symbols.length));
+		}
+	}
+}
+function Matrix (x, y) {
+	this.x = x;
+	this.y = y;
+	this.pick = Math.floor(random(symbols.length));
+	this.alpha = 255;
+	this.fade = 3.4//random(0.9, 2.5);
+	this.Print = function () {
+		// if (frameRate % 10 === 0) {
+		// 	this.pick = Math.floor(random(symbols.length));
+		// }
+		fill(this.alpha,255,this.alpha + 50,this.alpha);
+		if (frameRate % 30 === 0) {
+			this.pick = Math.floor(random(symbols.length));
+		}
+		text(symbols[this.pick], this.x, this.y);
+		this.alpha -= this.fade;
+	}
+}
+function windowResized() {
+	resizeCanvas(
+		window.innerWidth,
+		window.innerHeight
+	);
+	background(0);
+	matrix.splice(0);
+}
+</script>
+</body>
+</html>
